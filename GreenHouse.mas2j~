@@ -1,0 +1,40 @@
+*
+
+    greenHouse
+
+    ---------------------------
+
+
+
+    Jason Project File
+
+
+
+    This file defines the initial state of the MAS
+
+
+
+    Jason 
+
+    április 03, 2019 - 10:51:04
+
+*/
+
+
+
+MAS greenHouse {
+
+
+
+    infrastructure: Centralised
+
+
+    environment: GreenHouseJava
+
+    agents:
+
+        ontozo;
+
+        riaszto;
+
+
