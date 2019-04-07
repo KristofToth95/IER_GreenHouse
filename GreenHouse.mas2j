@@ -28,5 +28,7 @@ MAS greenHouse {
     agents:
         ontozo;
         riaszto;
+		huto;
+		futo;
 
 }
