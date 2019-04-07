@@ -87,7 +87,7 @@ public class GreenHouseJava extends Environment {
 		 JButton fut = new JButton("Futes");
 		 JButton uj_hom_btn = new JButton("Uj homerseklet");
 		 JTextArea uj_hom_txt = new JTextArea();
-		 JTextArea akt_hom_txt = new JTextArea("Aktualis homerseklet: " + getHomerseklet());
+		 JLabel akt_hom_txt = new JLabel("Aktualis homerseklet: " + getHomerseklet());
 		 JButton reset = new JButton("Reset");
 					
 		 GreenHouseGUI(){
@@ -146,6 +146,7 @@ public class GreenHouseJava extends Environment {
 			uj_hom_btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setHomerseklet(Integer.parseInt(uj_hom_txt.getText()));
+					akt_hom_txt.setText("Aktualis homerseklet: " + getHomerseklet());
 				}
 			});
 			
@@ -157,7 +158,7 @@ public class GreenHouseJava extends Environment {
 			
 			label.setHorizontalAlignment(SwingConstants.CENTER);
 			label.setBounds(65, 318, 329, 32);
-			label.setForeground(Color.RED);
+			//label.setForeground(Color.RED);
 			panel.add(label);
 			
 			reset.setBounds(252, 361, 142, 23);

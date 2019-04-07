@@ -145,7 +145,11 @@ public class GreenHouseJava extends Environment {
 			panel.add(uj_hom_btn);
 			uj_hom_btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					setHomerseklet(Integer.parseInt(uj_hom_txt.getText()));
+					try{
+						setHomerseklet(Integer.parseInt(uj_hom_txt.getText()));
+					} catch (Exception ex){
+						System.out.println("Nem megfelelo homerseklet ertek");
+					}
 					akt_hom_txt.setText("Aktualis homerseklet: " + getHomerseklet());
 				}
 			});
@@ -175,32 +179,7 @@ public class GreenHouseJava extends Environment {
              setVisible(true);
              paint();
 		 }
-		
-		/* riaszt.addActionListener(new ActionListener(){
-		
-			@Override
-			public void actionPerformed(ActionEvent e){
-				try {
-					label.setText(label.getText());
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage());
-				}
-			  
-			}
-
-		 });*/
 		 
-		/* void actionPerformed(ActionEvent e) {
-					 String command = e.getActionCommand();
-					 String l = "<html><center>";
-					  if( command.equals("Riasztas"))  {
-						   l = "<font color=\"red\" size=7><b>Riasztas</b><br></font>";
-					  }
-					  else if (command.equals("Ontozes")){
-						  l = "<font color=\"red\" size=7><b>Ontozes</b><br></font>";
-					  }
-					  label.setText(l);
-		}*/
 				 
 		 void paint(){
 			/* synchronized (modelLock) {
