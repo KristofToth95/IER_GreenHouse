@@ -1,8 +1,0 @@
-// Agent Riaszto in project GreenHouse.mas2j
-
-!start.
-
-+!start : true <- burn.
-
-+fire <- run.
-

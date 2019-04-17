@@ -1,12 +1,18 @@
-# IER_GreenHouse
+﻿# IER_GreenHouse
 
  ## 1.     Feladat specifikációja
  
  
 ### 1.1     Intelligens tér
  
-Egy Okos üvegház rendszert fejlesztünk. Hőmérséklet érzékelők lesznek beépítve az üvegházunkba. Ha a hőmérséklet 30° fölé nő, akkor el kell kezdeni a szabályzó folyamatokat, ha 40° fölé nőne, akkor riasztást kell küldeni. A növényeknek nem szabad megfagyniuk sem, így, ha a hőmérséklet 5° alá csökkenne már el kell kezdeni fűtési szabályozó folyamatokat.
-Az üvegházban egy arra kijelölt vezérlőpanel segítségével öntözésre kerülhet sor. Öntözni a szabályozó folyamatok alatt nem lehetséges.
+Egy Okos üvegház rendszert fejlesztünk. 
+Hőmérséklet érzékelők lesznek beépítve az üvegházunkba. 
+Ha a hőmérséklet 30° fölé nő, akkor el kell kezdeni a szabályzó 
+folyamatokat, ha 40° fölé nőne, akkor riasztást kell küldeni. 
+A növényeknek nem szabad megfagyniuk sem, így, ha a hőmérséklet 5° 
+alá csökkenne már el kell kezdeni fűtési szabályozó folyamatokat.
+Az üvegházban egy arra kijelölt vezérlőpanel segítségével öntözésre 
+kerülhet sor. Öntözni a szabályozó folyamatok alatt nem lehetséges.
  
 ### 1.2   Ágensek:
  
