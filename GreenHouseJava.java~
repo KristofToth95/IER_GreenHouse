@@ -13,9 +13,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Random;
+import java.awt.Dimension;
+import javax.swing.JComponent;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Color;
 
 
 public class GreenHouseJava extends Environment {
+	private GreenHouseGraphics kinezet;
 	
 	private int homerseklet = (new Random()).nextInt(50);
 	
@@ -80,6 +86,7 @@ public class GreenHouseJava extends Environment {
 	
 	 class GreenHouseGUI extends JFrame {
 		 JPanel panel = new JPanel();
+		 JPanel grafikuspanel = new JPanel();
 		 JLabel label = new JLabel();
 		 JButton riaszt = new JButton("Riasztas");
 		 JButton ontoz = new JButton("Ontozes");
@@ -93,19 +100,19 @@ public class GreenHouseJava extends Environment {
 		 GreenHouseGUI(){
 			 super("Okos UvegHaz");
 			 
-			  
-			 setPreferredSize(new Dimension(500,500));
+			 		  
+			 setPreferredSize(new Dimension(800,500));
 			 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE );
-			 
+			 kinezet = new GreenHouseGraphics();
+			 kinezet.setBounds(75, 15, 700, 400);
+			 this.add(kinezet);
+			
 			 this.add(panel, BorderLayout.CENTER);
 			 panel.setLayout(null);
-			 /*p.add(new Button("Riasztas"), BorderLayout.SOUTH);
-			 p.add(new Button("Ontozes"), BorderLayout.SOUTH);
-			 p.add(new Button("Hutes"), BorderLayout.SOUTH);
-			 p.add(new Button("Futes"), BorderLayout.SOUTH);
-			 */
+			 
+			 this.pack();
 			
-			riaszt.setBounds(65, 42, 142, 23);
+			riaszt.setBounds(120, 375, 142, 23);
 			panel.add(riaszt);
 			riaszt.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -114,7 +121,7 @@ public class GreenHouseJava extends Environment {
 				}
 			});
 			
-			ontoz.setBounds(252, 42, 142, 23);
+			ontoz.setBounds(120, 425, 142, 23);
 			panel.add(ontoz);
 			ontoz.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -123,7 +130,7 @@ public class GreenHouseJava extends Environment {
 				}
 			});
 			
-			hut.setBounds(65, 92, 142, 23);
+			hut.setBounds(320, 425, 142, 23);
 			panel.add(hut);
 			hut.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -132,7 +139,7 @@ public class GreenHouseJava extends Environment {
 				}
 			});
 		
-			fut.setBounds(252, 92, 142, 23);
+			fut.setBounds(320, 375, 142, 23);
 			panel.add(fut);
 			fut.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -141,7 +148,7 @@ public class GreenHouseJava extends Environment {
 				}
 			});
 			
-			uj_hom_btn.setBounds(252, 244, 142, 40);
+			uj_hom_btn.setBounds(545, 425, 120, 23);
 			panel.add(uj_hom_btn);
 			uj_hom_btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -154,10 +161,10 @@ public class GreenHouseJava extends Environment {
 				}
 			});
 			
-			uj_hom_txt.setBounds(65, 252, 142, 32);  
+			uj_hom_txt.setBounds(495, 425, 42, 23);  
 			panel.add(uj_hom_txt);
 			
-			akt_hom_txt.setBounds(65, 193, 329, 40);
+			akt_hom_txt.setBounds(520, 365, 300, 40);
 			panel.add(akt_hom_txt);
 			
 			label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -177,24 +184,38 @@ public class GreenHouseJava extends Environment {
 			 
 			 pack();
              setVisible(true);
-             paint();
+             this.repaint();
 		 }
-		 
-				 
-		 void paint(){
-			/* synchronized (modelLock) {
-				 Label label = new Label();
-				 p.add(label);
-				 label.setPreferredSize(new Dimension(180,180));
-				 label.setHorizontalAlignment(BorderLayout.NORTH);
-				 
-				 actionPerformed();
-				 
-			 }*/
-		 }
-		 
 		 
 	 }
+	 
+	 public class GreenHouseGraphics extends JComponent {
+
+		
+
+        @Override
+        public void paint(Graphics g) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setColor(new Color(24, 231, 82));
+            g2d.fillRect(0, 0, 600, 350);
+            g2d.setColor(new Color(150, 91, 8));
+            g2d.fillRect(50, 30, 500, 290);
+            g2d.setColor(new Color(189, 182, 173));
+            g2d.fillRect(54, 34, 492, 282);
+            //g2d.fillRect(300 + 2, 34, 250 - 6, 290 - 8);
+            //g2d.fillRect(300 - 2, 125, 4, 100);
+            g2d.setColor(new Color(239, 37, 47));
+            g2d.fillOval(80, 60, 40, 40);
+			g2d.setColor(new Color(239, 193, 37));
+            g2d.fillOval(95, 75, 10, 10);
+
+        }
+
+       // @Override
+       // public Dimension getPreferredSize() {
+       //     return new Dimension(800, 500);
+       // }
+    }
 
 }
 

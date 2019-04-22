@@ -18,10 +18,14 @@ import javax.swing.JComponent;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.lang.*;
+
 
 
 public class GreenHouseJava extends Environment {
 	private GreenHouseGraphics kinezet;
+	private int novekedes = 0;
+	private boolean water = false;
 	
 	private int homerseklet = (new Random()).nextInt(50);
 	
@@ -125,8 +129,20 @@ public class GreenHouseJava extends Environment {
 			panel.add(ontoz);
 			ontoz.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					label.setText(ontoz.getText());
-					reset.setVisible(true);
+					try {
+						if(novekedes<3){
+							water = true;
+							Thread.sleep(700);
+							water = false;
+							novekedes++;
+						}
+						else
+							novekedes = 0;
+					} catch (Exception ex) {
+					}
+					
+					//label.setText(ontoz.getText());
+					//reset.setVisible(true);
 				}
 			});
 			
@@ -202,13 +218,53 @@ public class GreenHouseJava extends Environment {
             g2d.fillRect(50, 30, 500, 290);
             g2d.setColor(new Color(189, 182, 173));
             g2d.fillRect(54, 34, 492, 282);
-            //g2d.fillRect(300 + 2, 34, 250 - 6, 290 - 8);
-            //g2d.fillRect(300 - 2, 125, 4, 100);
-            g2d.setColor(new Color(239, 37, 47));
-            g2d.fillOval(80, 60, 40, 40);
-			g2d.setColor(new Color(239, 193, 37));
-            g2d.fillOval(95, 75, 10, 10);
-
+			for(int j=0; j<3; j++){
+					for(int i=0; i<9; i++){
+						g2d.setColor(new Color(239 - j*100, 37 + 30*j, 47 + 100*j));
+						g2d.fillOval(82 + 50*i, 62 + 90*j, 30, 30);
+						g2d.setColor(new Color(239, 193, 37));
+						g2d.fillOval(93 + 50*i, 73 + 90*j, 8, 8);
+					}
+				}
+			
+			
+			if(novekedes == 1){
+				for(int j=0; j<3; j++){
+					for(int i=0; i<9; i++){
+						g2d.setColor(new Color(239 - j*100, 37 + 30*j, 47 + 100*j));
+						g2d.fillOval(80 + 50*i, 60 + 90*j, 40, 40);
+						g2d.setColor(new Color(239, 193, 37));
+						g2d.fillOval(95 + 50*i, 75 + 90*j, 10, 10);
+					}
+				}
+			}
+			if(novekedes == 2){
+				for(int j=0; j<3; j++){
+					for(int i=0; i<9; i++){
+						g2d.setColor(new Color(239 - j*100, 37 + 30*j, 47 + 100*j));
+						g2d.fillOval(80 + 50*i, 60 + 90*j, 50, 50);
+						g2d.setColor(new Color(239, 193, 37));
+						g2d.fillOval(98 + 50*i, 78 + 90*j, 12, 12);
+					}
+				}
+			}
+			if(water){
+				
+					for(int k=0; k<9; k++){
+						g2d.setColor(new Color(67, 199, 249));
+						g2d.fillRect(60+20*k, 50+30*k, 10, 10);
+					}
+					for(int k=0; k<9; k++){
+						g2d.setColor(new Color(67, 199, 249));
+						g2d.fillRect(210+20*k, 50+30*k, 10, 10);
+					}
+					for(int k=0; k<9; k++){
+						g2d.setColor(new Color(67, 199, 249));
+						g2d.fillRect(360+20*k, 50+30*k, 10, 10);
+					}
+				
+			}
+			
         }
 
        // @Override
