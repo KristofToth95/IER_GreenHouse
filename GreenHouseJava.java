@@ -49,8 +49,8 @@ public class GreenHouseJava extends Environment {
             public void run() {
                 try {
                     while (isRunning()) {
-						 gui.paintAll(gui.getGraphics());
-						 Thread.sleep(1000);
+						 //gui.paintAll(gui.getGraphics());
+						 //Thread.sleep(1000);
 						 }
                 } catch (Exception e) {} 
             }
@@ -105,7 +105,7 @@ public class GreenHouseJava extends Environment {
 			 super("Okos UvegHaz");
 			 
 			 		  
-			 setPreferredSize(new Dimension(800,500));
+			 setPreferredSize(new Dimension(800,600));
 			 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE );
 			 kinezet = new GreenHouseGraphics();
 			 kinezet.setBounds(75, 15, 700, 400);
@@ -184,11 +184,11 @@ public class GreenHouseJava extends Environment {
 			panel.add(akt_hom_txt);
 			
 			label.setHorizontalAlignment(SwingConstants.CENTER);
-			label.setBounds(65, 318, 329, 32);
+			label.setBounds(400, 460, 100, 40);
 			//label.setForeground(Color.RED);
 			panel.add(label);
 			
-			reset.setBounds(252, 361, 142, 23);
+			reset.setBounds(400, 510, 100, 23);
 			panel.add(reset);
 			reset.setVisible(false);
 			reset.addActionListener(new ActionListener() {
