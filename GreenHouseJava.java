@@ -26,16 +26,69 @@ public class GreenHouseJava extends Environment {
 	private GreenHouseGraphics kinezet;
 	private int novekedes = 0;
 	private boolean water = false;
+	private boolean ontoz = false;
+	private boolean riaszt = false;
+	private boolean hut = false;
+	private boolean fut = false;
 	private boolean resetBoolean = false;
-	private boolean overrided = false;
+	private boolean manual = false;
 	private int homerseklet =(new Random()).nextInt(50);
 	
-	public boolean getOverrided(){
-		return overrided;
+	public boolean getManual() {
+		return manual;
 	}
 	
-	public void setOverrided(boolean tmp) {
-		overrided = tmp;
+	public void setManual(boolean tmp){
+		manual = tmp;
+	}
+	
+	public boolean getRiaszt() {
+		return riaszt;
+	}
+	
+	public void setRiaszt(boolean tmp){
+		riaszt = tmp;
+	}
+	
+	public boolean getHut() {
+		return hut;
+	}
+	
+	public void setHut(boolean tmp){
+		hut = tmp;
+	}
+	
+	public boolean getFut() {
+		return fut;
+	}
+
+	
+	public void setFut(boolean tmp){
+		fut = tmp;
+	}
+	
+	public void setOntoz(boolean tmp){
+		ontoz = tmp;
+	}
+	
+	public boolean getOntoz() {
+		return ontoz;
+	}
+	
+	public boolean getWater() {
+		return water;
+	}
+	
+	public void setWater(boolean tmp){
+		water = tmp;
+	}
+	
+	public int getNovekedes(){
+		return novekedes;
+	}
+	
+	public void setNovekedes(int tmp) {
+		novekedes=tmp;
 	}
 	
 	public int getHomerseklet() {
@@ -66,38 +119,66 @@ public class GreenHouseJava extends Environment {
             public void run() {
                 try {
                     while (isRunning()) {
-						 //gui.paintAll(gui.getGraphics());
-						 //Thread.sleep(1000);
-						 while(getHomerseklet() > 30 && getHomerseklet() < 41 && getOverrided() ==false) {
-							 gui.label.setText(gui.hut.getText());
-							 setResetBoolean(true);
-							 gui.resetSet();
-							 setHomerseklet(getHomerseklet()-1);
-							 gui.homersekletSet();
-							 Thread.sleep(5000);
+						 while (getManual() == true) {
+							 if(getOntoz()==true) {
+								if(getNovekedes()<3){
+									setWater(true);
+									kinezet.repaint();
+									Thread.sleep(700);
+									setWater(false);
+									setNovekedes(getNovekedes()+1);
+									kinezet.repaint();
+								}
+								else {
+									setNovekedes(0);
+									kinezet.repaint();
+								}
+								setOntoz(false);
+							 }
+							 gui.control();
+							 Thread.sleep(4000);
 						 }
-						 while(getHomerseklet() > 40 && getOverrided() == false) {
-							 gui.label.setText(gui.riaszt.getText());
-							 setResetBoolean(true);
-							 gui.resetSet();
-							 setHomerseklet(getHomerseklet()-1);
-							 gui.homersekletSet();
-							 Thread.sleep(5000);
+						 while(getHomerseklet() > 30 && getHomerseklet() < 41 && getManual() == false) {
+							 setHut(true);
+							 setFut(false);
+							 setRiaszt(false);
+							 gui.control();
+							 Thread.sleep(4000);
 						 }
-						 while(getHomerseklet() < 5 && getOverrided() == false) {
-							 gui.label.setText(gui.fut.getText());
-							 setResetBoolean(true);
-							 gui.resetSet();
-							 setHomerseklet(getHomerseklet()+1);
-							 gui.homersekletSet();
-							 Thread.sleep(5000);
+						 while(getHomerseklet() > 40 && getManual() == false) {
+							 setHut(false);
+							 setFut(false);
+							 setRiaszt(true);
+							 gui.control();
+							 Thread.sleep(4000);
 						 }
-						 while(getHomerseklet() > 4 && getHomerseklet() < 31) {
+						 while(getHomerseklet() < 5 && getManual() == false) {
+							 setHut(false);
+							 setFut(true);
+							 setRiaszt(false);
+							 gui.control();
+							 Thread.sleep(4000);
+						 }
+						 while(getHomerseklet() > 4 && getHomerseklet() < 31 && getManual() == false) {
 							 gui.label.setText("");
 							 setResetBoolean(false);
-							 setOverrided(false);
 							 gui.resetSet();
-							 Thread.sleep(5000);						 
+							 if(getOntoz()==true) {
+								if(getNovekedes()<3){
+									setWater(true);
+									kinezet.repaint();
+									Thread.sleep(700);
+									setWater(false);
+									setNovekedes(getNovekedes()+1);
+									kinezet.repaint();
+								}
+								else {
+									setNovekedes(0);
+									kinezet.repaint();
+								}
+								setOntoz(false);
+							 }
+							 Thread.sleep(1000);						 
 						 }
 						 Thread.sleep(1000);
 					}
@@ -150,6 +231,30 @@ public class GreenHouseJava extends Environment {
 		 JLabel akt_hom_txt = new JLabel("Aktualis homerseklet: " + getHomerseklet());
 		 JButton reset = new JButton("Reset");
 		 
+		 public void control(){
+			 if(getFut()==true){
+				 label.setText(gui.fut.getText());
+				 setResetBoolean(true);
+				 resetSet();
+				 setHomerseklet(getHomerseklet()+1);
+				 homersekletSet();
+			 }
+			 if(getHut()==true){
+				 label.setText(gui.hut.getText());
+				 setResetBoolean(true);
+				 resetSet();
+				 setHomerseklet(getHomerseklet()-1);
+				 homersekletSet();
+			 }
+			 if(getRiaszt()==true){
+				 label.setText(gui.riaszt.getText());
+				 setResetBoolean(true);
+				 resetSet();
+				 setHomerseklet(getHomerseklet()-1);
+				 homersekletSet();
+			 }
+		 }
+		 
 		 public void resetSet(){
 			 if (getResetBoolean()==false){
 				 reset.setVisible(false);
@@ -192,7 +297,10 @@ public class GreenHouseJava extends Environment {
 					label.setText(riaszt.getText());
 					setResetBoolean(true);
 					resetSet();
-
+					setFut(false);
+					setHut(false);
+					setRiaszt(true);
+					setManual(true);
 				}
 			});
 			
@@ -200,20 +308,7 @@ public class GreenHouseJava extends Environment {
 			panel.add(ontoz);
 			ontoz.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
-						if(novekedes<3){
-							water = true;
-							Thread.sleep(700);
-							water = false;
-							novekedes++;
-						}
-						else
-							novekedes = 0;
-					} catch (Exception ex) {
-					}
-					
-					//label.setText(ontoz.getText());
-					//reset.setVisible(true);
+					setOntoz(true);
 				}
 			});
 			
@@ -224,6 +319,10 @@ public class GreenHouseJava extends Environment {
 					label.setText(hut.getText());
 					setResetBoolean(true);
 					resetSet();
+					setFut(false);
+					setHut(true);
+					setRiaszt(false);
+					setManual(true);
 				}
 			});
 		
@@ -234,6 +333,10 @@ public class GreenHouseJava extends Environment {
 					label.setText(fut.getText());
 					setResetBoolean(true);
 					resetSet();
+					setFut(true);
+					setHut(false);
+					setRiaszt(false);
+					setManual(true);
 				}
 			});
 			
@@ -247,7 +350,7 @@ public class GreenHouseJava extends Environment {
 						System.out.println("Nem megfelelo homerseklet ertek");
 					}
 					homersekletSet();
-					setOverrided(false);
+					setManual(false);
 				}
 			});
 			
@@ -270,8 +373,17 @@ public class GreenHouseJava extends Environment {
 				public void actionPerformed(ActionEvent e) {
 					label.setText("");
 					setResetBoolean(false);
-					setOverrided(true);
 					resetSet();
+					setFut(false);
+					setHut(false);
+					setRiaszt(false);
+					boolean tmp;
+					if(getManual() == true) {
+						tmp =false;
+					} else {
+						tmp =true;
+					}
+					setManual(tmp);
 				}
 			});
 			 
@@ -283,18 +395,18 @@ public class GreenHouseJava extends Environment {
 	 }
 	 
 	 public class GreenHouseGraphics extends JComponent {
-
-		
-
+		 	Graphics2D g2d;
+			
         @Override
         public void paint(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setColor(new Color(24, 231, 82));
-            g2d.fillRect(0, 0, 600, 350);
-            g2d.setColor(new Color(150, 91, 8));
-            g2d.fillRect(50, 30, 500, 290);
-            g2d.setColor(new Color(189, 182, 173));
-            g2d.fillRect(54, 34, 492, 282);
+			g2d = (Graphics2D) g;
+			g2d.setColor(new Color(24, 231, 82));
+			g2d.fillRect(0, 0, 600, 350);
+            	g2d.setColor(new Color(150, 91, 8));
+			g2d.fillRect(50, 30, 500, 290);
+            	g2d.setColor(new Color(189, 182, 173));
+			g2d.fillRect(54, 34, 492, 282);
+            
 			for(int j=0; j<3; j++){
 					for(int i=0; i<9; i++){
 						g2d.setColor(new Color(239 - j*100, 37 + 30*j, 47 + 100*j));
@@ -303,9 +415,7 @@ public class GreenHouseJava extends Environment {
 						g2d.fillOval(93 + 50*i, 73 + 90*j, 8, 8);
 					}
 				}
-			
-			
-			if(novekedes == 1){
+			if(getNovekedes() == 1){
 				for(int j=0; j<3; j++){
 					for(int i=0; i<9; i++){
 						g2d.setColor(new Color(239 - j*100, 37 + 30*j, 47 + 100*j));
@@ -315,7 +425,7 @@ public class GreenHouseJava extends Environment {
 					}
 				}
 			}
-			if(novekedes == 2){
+			if(getNovekedes() == 2){
 				for(int j=0; j<3; j++){
 					for(int i=0; i<9; i++){
 						g2d.setColor(new Color(239 - j*100, 37 + 30*j, 47 + 100*j));
@@ -325,7 +435,7 @@ public class GreenHouseJava extends Environment {
 					}
 				}
 			}
-			if(water){
+			if(getWater()==true){
 				
 					for(int k=0; k<9; k++){
 						g2d.setColor(new Color(67, 199, 249));
@@ -339,8 +449,7 @@ public class GreenHouseJava extends Environment {
 						g2d.setColor(new Color(67, 199, 249));
 						g2d.fillRect(360+20*k, 50+30*k, 10, 10);
 					}
-				
-			}
+				}	
 			
         }
 
