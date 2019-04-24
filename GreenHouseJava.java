@@ -26,11 +26,28 @@ public class GreenHouseJava extends Environment {
 	private GreenHouseGraphics kinezet;
 	private int novekedes = 0;
 	private boolean water = false;
+	private boolean resetBoolean = false;
+	private boolean overrided = false;
+	private int homerseklet =(new Random()).nextInt(50);
 	
-	private int homerseklet = (new Random()).nextInt(50);
+	public boolean getOverrided(){
+		return overrided;
+	}
+	
+	public void setOverrided(boolean tmp) {
+		overrided = tmp;
+	}
 	
 	public int getHomerseklet() {
 		return homerseklet;
+	}
+	
+	public boolean getResetBoolean() {
+		return resetBoolean;
+	}
+	
+	public void setResetBoolean(boolean tmp) {
+		resetBoolean = tmp;
 	}
 	
 	public void setHomerseklet(int a){
@@ -51,7 +68,39 @@ public class GreenHouseJava extends Environment {
                     while (isRunning()) {
 						 //gui.paintAll(gui.getGraphics());
 						 //Thread.sleep(1000);
+						 while(getHomerseklet() > 30 && getHomerseklet() < 41 && getOverrided() ==false) {
+							 gui.label.setText(gui.hut.getText());
+							 setResetBoolean(true);
+							 gui.resetSet();
+							 setHomerseklet(getHomerseklet()-1);
+							 gui.homersekletSet();
+							 Thread.sleep(5000);
 						 }
+						 while(getHomerseklet() > 40 && getOverrided() == false) {
+							 gui.label.setText(gui.riaszt.getText());
+							 setResetBoolean(true);
+							 gui.resetSet();
+							 setHomerseklet(getHomerseklet()-1);
+							 gui.homersekletSet();
+							 Thread.sleep(5000);
+						 }
+						 while(getHomerseklet() < 5 && getOverrided() == false) {
+							 gui.label.setText(gui.fut.getText());
+							 setResetBoolean(true);
+							 gui.resetSet();
+							 setHomerseklet(getHomerseklet()+1);
+							 gui.homersekletSet();
+							 Thread.sleep(5000);
+						 }
+						 while(getHomerseklet() > 4 && getHomerseklet() < 31) {
+							 gui.label.setText("");
+							 setResetBoolean(false);
+							 setOverrided(false);
+							 gui.resetSet();
+							 Thread.sleep(5000);						 
+						 }
+						 Thread.sleep(1000);
+					}
                 } catch (Exception e) {} 
             }
         }.start();  
@@ -100,10 +149,30 @@ public class GreenHouseJava extends Environment {
 		 JTextArea uj_hom_txt = new JTextArea();
 		 JLabel akt_hom_txt = new JLabel("Aktualis homerseklet: " + getHomerseklet());
 		 JButton reset = new JButton("Reset");
+		 
+		 public void resetSet(){
+			 if (getResetBoolean()==false){
+				 reset.setVisible(false);
+				 hut.setEnabled(true);
+				 fut.setEnabled(true);
+				 riaszt.setEnabled(true);
+				 ontoz.setEnabled(true);
+			}
+			if (getResetBoolean()==true){
+				reset.setVisible(true);
+				hut.setEnabled(false);
+				fut.setEnabled(false);
+				riaszt.setEnabled(false);
+				ontoz.setEnabled(false);
+			}
+		 }
+		 
+		 public void homersekletSet(){
+			 akt_hom_txt.setText("Aktualis homerseklet: " + getHomerseklet());
+		 }
 					
 		 GreenHouseGUI(){
 			 super("Okos UvegHaz");
-			 
 			 		  
 			 setPreferredSize(new Dimension(800,600));
 			 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE );
@@ -121,7 +190,9 @@ public class GreenHouseJava extends Environment {
 			riaszt.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					label.setText(riaszt.getText());
-					reset.setVisible(true);
+					setResetBoolean(true);
+					resetSet();
+
 				}
 			});
 			
@@ -151,7 +222,8 @@ public class GreenHouseJava extends Environment {
 			hut.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					label.setText(hut.getText());
-					reset.setVisible(true);
+					setResetBoolean(true);
+					resetSet();
 				}
 			});
 		
@@ -160,7 +232,8 @@ public class GreenHouseJava extends Environment {
 			fut.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					label.setText(fut.getText());
-					reset.setVisible(true);
+					setResetBoolean(true);
+					resetSet();
 				}
 			});
 			
@@ -169,11 +242,12 @@ public class GreenHouseJava extends Environment {
 			uj_hom_btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try{
-						setHomerseklet(Integer.parseInt(uj_hom_txt.getText()));
+					setHomerseklet(Integer.parseInt(uj_hom_txt.getText()));
 					} catch (Exception ex){
 						System.out.println("Nem megfelelo homerseklet ertek");
 					}
-					akt_hom_txt.setText("Aktualis homerseklet: " + getHomerseklet());
+					homersekletSet();
+					setOverrided(false);
 				}
 			});
 			
@@ -189,12 +263,15 @@ public class GreenHouseJava extends Environment {
 			panel.add(label);
 			
 			reset.setBounds(400, 510, 100, 23);
+			resetSet();
 			panel.add(reset);
-			reset.setVisible(false);
+			
 			reset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					label.setText("");
-					reset.setVisible(false);
+					setResetBoolean(false);
+					setOverrided(true);
+					resetSet();
 				}
 			});
 			 
