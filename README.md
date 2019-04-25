@@ -13,7 +13,28 @@ A növényeknek nem szabad megfagyniuk sem, így, ha a hőmérséklet 5°
 alá csökkenne már el kell kezdeni fűtési szabályozó folyamatokat.
 Az üvegházban egy arra kijelölt vezérlőpanel segítségével öntözésre 
 kerülhet sor. Öntözni a szabályozó folyamatok alatt nem lehetséges.
- 
+
+ - Kezdetben egy random hőmérséklet értéket kapunk, amelyet bármikor
+felülírhatunk (akkor is, ha éppen egy szabályozó folyamat zajlik).
+ - 30° felett automatikusan elindul a hűtési folyamat, amihez 40°felett
+riasztás is tartozik.
+ - 5° alatt automatikusan elkezdődik a fűtési folyamat.
+ - Ezen szabályozások addig tartanak, ameddig be nem érünk a normál
+tartományba (5°-30°).
+ - A reset gomb segítségével bármikor kikapcsolhatók a szabályozó
+folyamatok, amelyek ebben az esetben csak akkor indulnak újra, ha
+manuálisan újra indítjuk őket. 
+ - Az aktuális hőmérsékletet folyamatosan látjuk.
+ - Az automatikus szabályozás mellett manuálisan bármikor elindíthatunk 
+szabályozó folyamatokat.
+ - Ha a rendszer éppen szabályozás alatt áll, mind a Riasztás - Fűtés - 
+Öntözés - és Hűtés gombok deaktiválódnak, ezzel biztosítva, hogy egyszerre 
+csak egy folyamat mehessen.
+ - Reset gomb megnyomására leáll a szabályozó folyamat és újra elérhető az
+összes többi szabályozó folyamat.
+ - Öntözés hatására megnőnek a növények.
+
+
 ### 1.2   Ágensek:
  
 - Hűtő rendszer
