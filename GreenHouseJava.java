@@ -23,168 +23,59 @@ import java.lang.*;
 
 
 public class GreenHouseJava extends Environment {
-	private GreenHouseGraphics kinezet;
+	
 	private int novekedes = 0;
 	private boolean water = false;
-	private boolean ontoz = false;
-	private boolean riaszt = false;
-	private boolean hut = false;
-	private boolean fut = false;
-	private boolean resetBoolean = false;
-	private boolean manual = false;
 	private int homerseklet =(new Random()).nextInt(50);
 	
-	public boolean getManual() {
-		return manual;
-	}
+	public boolean getWater() {return this.water;}
+	public void setWater(boolean a) {water=a;}
 	
-	public void setManual(boolean tmp){
-		manual = tmp;
-	}
+	public int getNovekedes() {return this.novekedes;}
+	public void setNovekedes(int a) {novekedes=a;}
 	
-	public boolean getRiaszt() {
-		return riaszt;
-	}
+	public int getHomerseklet() {return this.homerseklet;}
+	public void setHomerseklet(int a) {homerseklet=a;}
 	
-	public void setRiaszt(boolean tmp){
-		riaszt = tmp;
-	}
+	private static final Literal lFutes = ASSyntax.createLiteral("futes");
+	private static final Literal lHutes = ASSyntax.createLiteral("hutes");
+	private static final Literal lRiasztas = ASSyntax.createLiteral("riasztas");
+	private static final Literal lOntozes = ASSyntax.createLiteral("ontozes");
 	
-	public boolean getHut() {
-		return hut;
-	}
-	
-	public void setHut(boolean tmp){
-		hut = tmp;
-	}
-	
-	public boolean getFut() {
-		return fut;
-	}
-
-	
-	public void setFut(boolean tmp){
-		fut = tmp;
-	}
-	
-	public void setOntoz(boolean tmp){
-		ontoz = tmp;
-	}
-	
-	public boolean getOntoz() {
-		return ontoz;
-	}
-	
-	public boolean getWater() {
-		return water;
-	}
-	
-	public void setWater(boolean tmp){
-		water = tmp;
-	}
-	
-	public int getNovekedes(){
-		return novekedes;
-	}
-	
-	public void setNovekedes(int tmp) {
-		novekedes=tmp;
-	}
-	
-	public int getHomerseklet() {
-		return homerseklet;
-	}
-	
-	public boolean getResetBoolean() {
-		return resetBoolean;
-	}
-	
-	public void setResetBoolean(boolean tmp) {
-		resetBoolean = tmp;
-	}
-	
-	public void setHomerseklet(int a){
-		homerseklet = a;
-	}
-
     private Logger logger = Logger.getLogger("GreenHouse.mas2j."+GreenHouseJava.class.getName());
 	private GreenHouseGUI gui = new GreenHouseGUI();
-	
+	private GreenHouseGraphics kinezet;
 	private Object modelLock = new Object(); 
 
     /** Called before the MAS execution with the args informed in .mas2j */
 
-	public GreenHouseJava(){		
+	public GreenHouseJava(){	
+		createPercept();	
 		new Thread() {
             public void run() {
                 try {
-                    while (isRunning()) {
-						 while (getManual() == true) {
-							 if(getOntoz()==true) {
-								if(getNovekedes()<3){
-									setWater(true);
-									kinezet.repaint();
-									Thread.sleep(700);
-									setWater(false);
-									setNovekedes(getNovekedes()+1);
-									kinezet.repaint();
-								}
-								else {
-									setNovekedes(0);
-									kinezet.repaint();
-								}
-								setOntoz(false);
-							 }
-							 gui.control();
-							 Thread.sleep(4000);
-						 }
-						 while(getHomerseklet() > 30 && getHomerseklet() < 41 && getManual() == false) {
-							 setHut(true);
-							 setFut(false);
-							 setRiaszt(false);
-							 gui.control();
-							 Thread.sleep(4000);
-						 }
-						 while(getHomerseklet() > 40 && getManual() == false) {
-							 setHut(false);
-							 setFut(false);
-							 setRiaszt(true);
-							 gui.control();
-							 Thread.sleep(4000);
-						 }
-						 while(getHomerseklet() < 5 && getManual() == false) {
-							 setHut(false);
-							 setFut(true);
-							 setRiaszt(false);
-							 gui.control();
-							 Thread.sleep(4000);
-						 }
-						 while(getHomerseklet() > 4 && getHomerseklet() < 31 && getManual() == false) {
-							 gui.label.setText("");
-							 setResetBoolean(false);
-							 gui.resetSet();
-							 if(getOntoz()==true) {
-								if(getNovekedes()<3){
-									setWater(true);
-									kinezet.repaint();
-									Thread.sleep(700);
-									setWater(false);
-									setNovekedes(getNovekedes()+1);
-									kinezet.repaint();
-								}
-								else {
-									setNovekedes(0);
-									kinezet.repaint();
-								}
-								setOntoz(false);
-							 }
-							 Thread.sleep(1000);						 
-						 }
-						 Thread.sleep(1000);
-					}
+					createPercept();
+					Thread.sleep(1000);
+					
                 } catch (Exception e) {} 
             }
         }.start();  
+	}
+	
+	private void createPercept(){
+	clearPercepts();
+	
+	if (getHomerseklet() < 5) {
+		addPercept(lFutes);	
+	} else if (getHomerseklet() > 4 && getHomerseklet() < 31) {
+		gui.label.setText("");
+		gui.ontoz.setEnabled(true);
+	} else if( getHomerseklet() > 30 && getHomerseklet() < 41) {
+		addPercept(lHutes);
+	} else if (getHomerseklet() > 40) {
+		addPercept(lRiasztas);
+	}
+			
 	}
 	
     @Override
@@ -198,13 +89,36 @@ public class GreenHouseJava extends Environment {
     @Override
 
     public boolean executeAction(String agName, Structure action) {
-        logger.info("executing: "+action+", but not implemented!");
-        if (true) { // you may improve this condition
-             informAgsEnvironmentChanged();
-        }
-     
-		 gui.paintAll(gui.getGraphics());
-		 return true; // the action was executed with success
+		
+		if(action.getFunctor().equals("futes")){
+			setHomerseklet(getHomerseklet() + 1);
+			gui.label.setText("Futes");
+			gui.ontoz.setEnabled(false);
+			gui.homersekletSet();
+			
+		} else if (action.getFunctor().equals("hutes")){
+			setHomerseklet(getHomerseklet() - 1);
+			gui.label.setText("Hutes");
+			gui.ontoz.setEnabled(false);
+			gui.homersekletSet();
+			
+		} else if (action.getFunctor().equals("riasztas")){
+			setHomerseklet(getHomerseklet() - 1);
+			gui.label.setText("Riasztas");
+			gui.ontoz.setEnabled(false);
+			gui.homersekletSet();
+		}else if (action.getFunctor().equals("ontozes")){
+			setWater(false);
+			setNovekedes(getNovekedes()+1);
+			kinezet.repaint();
+			
+		} else {
+			logger.info("executing: "+action+", but not implemented!");
+		}
+		
+		
+		createPercept();
+		return true; // the action was executed with success
     }
 
 
@@ -222,55 +136,11 @@ public class GreenHouseJava extends Environment {
 		 JPanel panel = new JPanel();
 		 JPanel grafikuspanel = new JPanel();
 		 JLabel label = new JLabel();
-		 JButton riaszt = new JButton("Riasztas");
 		 JButton ontoz = new JButton("Ontozes");
-		 JButton hut = new JButton("Hutes"); 
-		 JButton fut = new JButton("Futes");
 		 JButton uj_hom_btn = new JButton("Uj homerseklet");
+		 JButton rand_hom_btn = new JButton("Random homerseklet");
 		 JTextArea uj_hom_txt = new JTextArea();
 		 JLabel akt_hom_txt = new JLabel("Aktualis homerseklet: " + getHomerseklet());
-		 JButton reset = new JButton("Reset");
-		 
-		 public void control(){
-			 if(getFut()==true){
-				 label.setText(gui.fut.getText());
-				 setResetBoolean(true);
-				 resetSet();
-				 setHomerseklet(getHomerseklet()+1);
-				 homersekletSet();
-			 }
-			 if(getHut()==true){
-				 label.setText(gui.hut.getText());
-				 setResetBoolean(true);
-				 resetSet();
-				 setHomerseklet(getHomerseklet()-1);
-				 homersekletSet();
-			 }
-			 if(getRiaszt()==true){
-				 label.setText(gui.riaszt.getText());
-				 setResetBoolean(true);
-				 resetSet();
-				 setHomerseklet(getHomerseklet()-1);
-				 homersekletSet();
-			 }
-		 }
-		 
-		 public void resetSet(){
-			 if (getResetBoolean()==false){
-				 reset.setVisible(false);
-				 hut.setEnabled(true);
-				 fut.setEnabled(true);
-				 riaszt.setEnabled(true);
-				 ontoz.setEnabled(true);
-			}
-			if (getResetBoolean()==true){
-				reset.setVisible(true);
-				hut.setEnabled(false);
-				fut.setEnabled(false);
-				riaszt.setEnabled(false);
-				ontoz.setEnabled(false);
-			}
-		 }
 		 
 		 public void homersekletSet(){
 			 akt_hom_txt.setText("Aktualis homerseklet: " + getHomerseklet());
@@ -290,56 +160,22 @@ public class GreenHouseJava extends Environment {
 			 
 			 this.pack();
 			
-			riaszt.setBounds(120, 375, 142, 23);
-			panel.add(riaszt);
-			riaszt.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					label.setText(riaszt.getText());
-					setResetBoolean(true);
-					resetSet();
-					setFut(false);
-					setHut(false);
-					setRiaszt(true);
-					setManual(true);
-				}
-			});
-			
 			ontoz.setBounds(120, 425, 142, 23);
 			panel.add(ontoz);
 			ontoz.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					setOntoz(true);
+					if(getNovekedes()<3){
+						setWater(true);
+						kinezet.repaint();
+						addPercept(lOntozes);
+			}
+			else {
+				setNovekedes(0);
+				kinezet.repaint();
+			}
 				}
 			});
-			
-			hut.setBounds(320, 425, 142, 23);
-			panel.add(hut);
-			hut.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					label.setText(hut.getText());
-					setResetBoolean(true);
-					resetSet();
-					setFut(false);
-					setHut(true);
-					setRiaszt(false);
-					setManual(true);
-				}
-			});
-		
-			fut.setBounds(320, 375, 142, 23);
-			panel.add(fut);
-			fut.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					label.setText(fut.getText());
-					setResetBoolean(true);
-					resetSet();
-					setFut(true);
-					setHut(false);
-					setRiaszt(false);
-					setManual(true);
-				}
-			});
-			
+						
 			uj_hom_btn.setBounds(545, 425, 120, 23);
 			panel.add(uj_hom_btn);
 			uj_hom_btn.addActionListener(new ActionListener() {
@@ -350,7 +186,17 @@ public class GreenHouseJava extends Environment {
 						System.out.println("Nem megfelelo homerseklet ertek");
 					}
 					homersekletSet();
-					setManual(false);
+					createPercept();
+				}
+			});
+			
+			rand_hom_btn.setBounds(495, 465, 170, 23);
+			panel.add(rand_hom_btn);
+			rand_hom_btn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setHomerseklet((new Random()).nextInt(50));
+					homersekletSet();
+					createPercept();
 				}
 			});
 			
@@ -361,31 +207,9 @@ public class GreenHouseJava extends Environment {
 			panel.add(akt_hom_txt);
 			
 			label.setHorizontalAlignment(SwingConstants.CENTER);
-			label.setBounds(400, 460, 100, 40);
-			//label.setForeground(Color.RED);
+			label.setBounds(300, 460, 100, 40);
+			label.setForeground(Color.RED);
 			panel.add(label);
-			
-			reset.setBounds(400, 510, 100, 23);
-			resetSet();
-			panel.add(reset);
-			
-			reset.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					label.setText("");
-					setResetBoolean(false);
-					resetSet();
-					setFut(false);
-					setHut(false);
-					setRiaszt(false);
-					boolean tmp;
-					if(getManual() == true) {
-						tmp =false;
-					} else {
-						tmp =true;
-					}
-					setManual(tmp);
-				}
-			});
 			 
 			 pack();
              setVisible(true);
@@ -453,10 +277,6 @@ public class GreenHouseJava extends Environment {
 			
         }
 
-       // @Override
-       // public Dimension getPreferredSize() {
-       //     return new Dimension(800, 500);
-       // }
     }
 
 }

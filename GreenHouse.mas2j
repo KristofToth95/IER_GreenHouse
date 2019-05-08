@@ -30,7 +30,6 @@ MAS greenHouse {
         riaszto;
 		huto;
 		futo;
-
-        water;
+		mainAgent;
 
 }

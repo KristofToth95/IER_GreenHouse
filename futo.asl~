@@ -1,0 +1,19 @@
+// Agent Futo in project GreenHouse.mas2j
+
+
+//!start.
+//+!start : true <- .print("Futes.").
+
+
+/* Initial goals */
+
+!futescheck.
+
+/* Plans */
+
++!futescheck : futesvalt <- .print("F?tés");wait(1000);!futescheck.
+
+-!futescheck <- !futescheck.
+
+
+
