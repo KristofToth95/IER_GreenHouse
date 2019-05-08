@@ -1,8 +1,13 @@
 // Agent Riaszto in project GreenHouse.mas2j
 
-!start.
 
-+!start : true <- burn.
+!wait.
 
-+fire <- run.
+
+/* Plans */
+
+
++!wait: riasztas <- .print("Riasztas tortent");.wait(1500);startalarm;.wait(3000);stopalarm;!wait.
+
+-!wait <- !wait.
 

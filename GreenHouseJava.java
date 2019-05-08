@@ -108,7 +108,7 @@ public class GreenHouseJava extends Environment {
 	}
 
     private Logger logger = Logger.getLogger("GreenHouse.mas2j."+GreenHouseJava.class.getName());
-	private GreenHouseGUI gui = new GreenHouseGUI();
+	public GreenHouseGUI gui = new GreenHouseGUI();
 	
 	private Object modelLock = new Object(); 
 
@@ -189,39 +189,17 @@ public class GreenHouseJava extends Environment {
 	
     @Override
     public void init(String[] args) {
-      /*  super.init(args);
-        addPercept(ASSyntax.parseLiteral("percept(demo)"));*/
+      super.init(args);
+        /*addPercept(ASSyntax.parseLiteral("percept(demo)"));*/
     }
 
 
-
-    @Override
-
-    public boolean executeAction(String agName, Structure action) {
-        logger.info("executing: "+action+", but not implemented!");
-        if (true) { // you may improve this condition
-             informAgsEnvironmentChanged();
-        }
-     
-		 gui.paintAll(gui.getGraphics());
-		 return true; // the action was executed with success
-    }
-
-
-
-    /** Called before the end of MAS execution */
-
-    @Override
-    public void stop() {
-        super.stop();
-		gui.setVisible(false);
-    }
 	
 	
 	 class GreenHouseGUI extends JFrame {
 		 JPanel panel = new JPanel();
 		 JPanel grafikuspanel = new JPanel();
-		 JLabel label = new JLabel();
+		 public JLabel label = new JLabel();
 		 JButton riaszt = new JButton("Riasztas");
 		 JButton ontoz = new JButton("Ontozes");
 		 JButton hut = new JButton("Hutes"); 
@@ -247,11 +225,11 @@ public class GreenHouseJava extends Environment {
 				 homersekletSet();
 			 }
 			 if(getRiaszt()==true){
-				 label.setText(gui.riaszt.getText());
+				/* label.setText(gui.riaszt.getText());
 				 setResetBoolean(true);
 				 resetSet();
 				 setHomerseklet(getHomerseklet()-1);
-				 homersekletSet();
+				 homersekletSet();*/
 			 }
 		 }
 		 
@@ -308,7 +286,11 @@ public class GreenHouseJava extends Environment {
 			panel.add(ontoz);
 			ontoz.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					setOntoz(true);
+					try{
+					addPercept(ASSyntax.parseLiteral("watercommand"));
+					System.out.println("WATERCOMMAND");
+					} catch (Exception ex) {
+		            }
 				}
 			});
 			
@@ -405,6 +387,7 @@ public class GreenHouseJava extends Environment {
             	g2d.setColor(new Color(150, 91, 8));
 			g2d.fillRect(50, 30, 500, 290);
             	g2d.setColor(new Color(189, 182, 173));
+		   //g2d.setColor(new Color(252, 8, 3));
 			g2d.fillRect(54, 34, 492, 282);
             
 			for(int j=0; j<3; j++){
@@ -457,6 +440,44 @@ public class GreenHouseJava extends Environment {
        // public Dimension getPreferredSize() {
        //     return new Dimension(800, 500);
        // }
+    }
+	
+
+    @Override
+    public boolean executeAction(String agName, Structure action) {
+		
+        //logger.info("executing: "+action+", but not implemented!");
+        /*if (true) { // you may improve this condition
+             informAgsEnvironmentChanged();
+        }*/
+        System.out.println(action.getFunctor());
+		if (action.getFunctor().equals("waterplants")) {
+			removePercept(ASSyntax.createLiteral("watercommand"));
+			setOntoz(true);
+			System.out.println("WATERPLANTS");
+			/*gui.label.setText(gui.riaszt.getText());
+			setResetBoolean(true);
+			gui.resetSet();
+			setHomerseklet(getHomerseklet()-1);
+			gui.homersekletSet();*/
+		}
+		else {
+            logger.info("The action " + action + " is not implemented!");
+            return false;
+        }
+     
+		 gui.paintAll(gui.getGraphics());
+		 return true; // the action was executed with success
+    }
+
+
+
+    /** Called before the end of MAS execution */
+
+    @Override
+    public void stop() {
+        super.stop();
+		gui.setVisible(false);
     }
 
 }

@@ -1,12 +1,16 @@
-// Agent Ontozo in project GreenHouse.mas2j
-
-/* Initial beliefs and rules */
-
-/* Initial goals */
-
-!start.
-
-/* Plans */
-
-+!start : true <- .print("hello world.").
+// Agent Ontozo in project GreenHouse.mas2j
+
+
+!waiting.
+
++!waiting : watercommand <- .print("Ontozesi parancs.");
+							.wait(1000);
+							waterplants;
+							.abolish(watercommand);
+							!waiting.
+							
+-!waiting <- !waiting.
+
+							
+
 

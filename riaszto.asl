@@ -3,4 +3,8 @@
 
 !start.
 
-+!start : true <- .print("Riasztas!!!").
+
+/* Plans */
+
++!start : true <- .print("Riaszto.").
+
